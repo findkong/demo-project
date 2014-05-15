@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html manifest="demo.appcache">
+    
+    <head>
+        <title>Title of the document</title>
+        <!--<base href="pix/" target="_blank">-->
+        <!-- specifies the relative location of all other links-->
+        <link rel="stylesheet" type="text/css" href="css/test.css">
+        <meta name="keywords" content="HTML, CSS, XML, XHTML, JavaScript">
+        <meta charset="UTF-8">
+        <!-- used for search engines etc. -->
+        <meta name="description" content="Free Web tutorials on HTML and CSS">
+        <meta name="author" content="Hege Refsnes">
+        <meta http-equiv="refresh" content="300">
+    
+        <script>
+        
+        function clickCounter()
+{
+if(typeof(Storage)!=="undefined")
+  {
+  if (sessionStorage.clickcount)
+    {
+    sessionStorage.clickcount=Number(sessionStorage.clickcount)+1;
+    }
+  else
+    {
+    sessionStorage.clickcount=1;
+    }
+  document.getElementById("result").innerHTML="You have clicked the button " + sessionStorage.clickcount + " time(s) in this session.";
+  }
+else
+  {
+  document.getElementById("result").innerHTML="Sorry, your browser does not support web storage...";
+  }
+}
+
+function allowDrop(ev)
+{
+ev.preventDefault();
+}
+
+function drag(ev)
+{
+ev.dataTransfer.setData("ID",ev.target.id);
+}
+
+function drop(ev)
+{
+ev.preventDefault();
+var data=ev.dataTransfer.getData("ID");
+ev.target.appendChild(document.getElementById(data));
+}
+
+var w;
+
+function startWorker()
+{
+if(typeof(Worker) !== "undefined")
+{
+  if(typeof(w) == "undefined")
+    {
+    w = new Worker("js/demo.js");
+    }
+  w.onmessage = function (event){
+    document.getElementById("countresult").innerHTML = event.data;
+  };
+}
+else
+{
+document.getElementById("countresult").innerHTML="Sorry, your browser does not support Web Workers...";
+}
+}
+
+function stopWorker()
+{ 
+w.terminate();
+}
+</script>
+    </head>
+    
+    <body>
+        <header style="background-color:AliceBlue" width="200" height="130" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h1>this is the header</h1>
+        </header>
+        <section style="background-color:Khaki">
+            <header>
+                <h1>section 2 header 9</h1>
+            </header>
+            <p>this is a sectino wtihin the document</p>
+            <img id="scream" src="pix/img3.jpg"
+            alt="The Pulpit Rock" width="130" height="130">
+            
+            <canvas id="myCanvas" draggable="true" ondragstart="drag(event)" width="200" height="100";>Your browser does not support the HTML5 canvas tag.</canvas>
+            <br>
+            
+            
+            <canvas id="myCanvas2" width="200" height="100" style="border:1px solid #c3c3c3"
+            ;>Your browser does not support the HTML5 canvas tag.</canvas>
+            <script>
+                var c = document.getElementById("myCanvas");
+                var ctx = c.getContext("2d");
+                // Create gradient
+                var grd = ctx.createLinearGradient(0, 0, 200, 0);
+                grd.addColorStop(0, "red");
+                grd.addColorStop(1, "white");
+                ctx.fillStyle = grd;
+                ctx.fillRect(0, 0, 150, 75);
+                ctx.moveTo(0, 0);
+                ctx.lineTo(200, 100);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(95, 50, 40, 0, 2 * Math.PI);
+                ctx.stroke();
+            </script>
+           <script>
+                var c2 = document.getElementById("myCanvas2");
+                var ctx2 = c2.getContext("2d");
+                var img2 = document.getElementById("scream");
+                ctx2.drawImage(img2, 10, 10);
+            </script>
+        </section>
+        <section style="background-color:Azure">
+            <H2>Section 2</H2>
+            <p>Section 2 Details</p>
+            <svg width="300" height="200">
+                <polygon points="100,10 40,180 190,60 10,60 160,180" style="fill:lime;stroke:purple;stroke-width:5;fill-rule:evenodd;"
+                />
+            </svg>
+        </section>
+        <article>
+            <header>
+                <h3>heading of article</h3>
+            </header>
+            <p id="demo">Click the button to get your coordinates:</p>
+            <button onclick="getLocation()">Try It</button>
+            <script>
+                var x = document.getElementById("demo");
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    }
+                    else {
+                        x.innerHTML = "Geolocation is not supported by this browser.";
+                    }
+                }
+
+                function showPosition(position) {
+                    x.innerHTML = "Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude;
+                }
+            </script>
+        </article>
+        <article>
+        <p id="result">THE RESULT</p>
+      <p><button onclick="clickCounter()" type="button">COUNT</button></p>
+
+
+        </article>
+        <article>
+<p>Count numbers: <output id="countresult"></output></p>
+<button onclick="startWorker()">Start Worker</button> 
+<button onclick="stopWorker()">Stop Worker</button>
+<br><br>
+<aside>
+                <h4>This is the count numbers javascript worker rocess</h4>
+                
+            </aside>
+        </article>
+        <!--New INPUT TYPES-->
+        <Section>
+            <Header>
+                <h1>Input Types</h1>
+            </Header>
+            <form>Select your favorite color:
+                <input type="color" name="favcolor" autofocus>
+                <br>Birthday:
+                <input type="date" name="bday">
+                <br>Birthday (date and time):
+                <input type="datetime" name="bdaytime">
+                <br>E-mail:
+                <input type="email" name="email" autocomplete="on" placeholder="First@Gmail.com">
+                <br>Birthday (month and year):
+                <input type="month" name="bdaymonth">
+                <br>Quantity (between 1 and 5):
+                <input type="number" name="quantity" min="1"
+                max="5">
+                <br>Range:
+                <input type="range" name="points" min="1" max="10">Search Google:
+                <input type="search" name="googlesearch">Telephone:
+                <input type="tel" name="usrtel">Add your homepage:
+                <input type="url" name="homepage">Select a week:
+                <input type="week" name="week_year">
+                <br>
+                <input list="browsers">
+                <datalist id="browsers">
+                    <option value="Internet Explorer">
+                        <option value="Firefox">
+                            <option value="Chrome">
+                                <option value="Opera">
+                                    <option value="Safari">
+                </datalist>
+                <input type="submit">
+            </form>
+            <form action="demo_keygen.asp" method="get">Username:
+                <input type="text" name="usr_name">Encryption:
+                <keygen name="security">
+                    <input type="submit">
+            </form>
+            <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+                <input type="range" id="a" value="50">100 +
+                <input type="number" id="b" value="50">=
+                <output name="x" for="a b"></output>
+            </form>
+        </Section>
+        <nav>
+            <!--LINKS -->
+            <a href="/html/">HTML</a>|
+            <a href="/css/">CSS</a>|
+            <a href="/js/">JavaScript</a>|
+            <a href="/jquery/">jQuery</a>
+        </nav>
+        <figure>
+            <img id="man" src="pix/img3.jpg" alt="The Pulpit Rock" width="304" height="228">
+            <figcaption>Fig1. - The Pulpit Pock, Norway.</figcaption>
+        </figure>
+        <footer>
+            <p>Posted by: JAKE</p>
+            <p>
+                <time pubdate datetime="2012-03-01"></time>
+            </p>
+        </footer>
+    </body>
+
+</html>

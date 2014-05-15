@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<header>
+    
+<script>
+function myFunction() { 
+    document.getElementById("demo").innerHTML = "Hello JavaScript!";
+    document.getElementById("demo").style.fontSize = "50px";
+}
+
+function checkINT() {
+    //Get the value of input field with id="numb"
+    var val = document.getElementById("numb").value;
+
+    //Get the element with id="demo"
+    var elem = document.getElementById("demo2");
+
+    //If value is space or not a number
+    if (val == "" || isNaN(val)) {
+        elem.innerHTML = "Not a Number";
+    } else {
+        elem.innerHTML = "Input OK";
+    }
+}
+</script>
+</header>
+<body>
+
+<h1>My First JavaScript</h1>
+
+<p>JavaScript can change the content of an HTML element:</p>
+
+<button type="button" onclick="myFunction()">Click Me!</button>
+
+<p id="demo">This is a demonstration.</p>
+
+<input id="numb" type="text">
+
+<button type="button" onclick="checkINT()">Check if integer</button>
+
+<p id="demo2"></p>
+
+</body>
+</html>
